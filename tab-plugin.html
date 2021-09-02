@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tab demo自制-李亚环(面向对象式编程 object)</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+</head>
+
+<body>
+    <style>
+        .tabs-bar {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            border-bottom: 1px solid turquoise;
+        }
+        
+        .tabs-bar>li {
+            display: inline-block;
+            list-style: none;
+            padding: 10px;
+            width: 100px;
+            text-align: center;
+        }
+        
+        .tabs-bar>li.active {
+            border: 1px solid turquoise;
+            border-bottom: 0;
+        }
+        
+        .tabs-content>li {
+            display: none;
+        }
+        
+        .tabs-content>li.active {
+            display: block;
+        }
+    </style>
+    <div class="tabs">
+        <ol class="tabs-bar">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+        </ol>
+        <ol class="tabs-content">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+        </ol>
+    </div>
+    <div class="tabs">
+        <ol class="tabs-bar">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+        </ol>
+        <ol class="tabs-content">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+        </ol>
+    </div>
+
+</body>
+<script>
+    function Tabs(selector) {
+        this.element = $(selector)
+            //也可以写成 $this = $(selector);但是这种不支持函数写在外面
+            // 初始化标签页，默认第一个标签显示
+            //点击每个标签的时候，对应index的标签隐藏
+        this.init();
+        this.bindEvent();
+
+    }
+    Tabs.prototype.init = function() {
+        this.element.each(function(index, element) {
+            $(element).children('.tabs-bar').children('li').eq(0).addClass('active').siblings().removeClass('active');
+            $(element).children('.tabs-content').children('li').eq(0).addClass('active').siblings().removeClass('active');
+        });
+    }
+    Tabs.prototype.bindEvent = function() {
+        this.element.on('click', '.tabs-bar>li', function(e) {
+            var $li = $(e.currentTarget);
+            $li.addClass('active').siblings().removeClass('active');
+            var Index = $li.index();
+            var $content = $li.closest('.tabs').find('.tabs-content>li').eq(Index);
+            $content.addClass('active').siblings().removeClass('active');
+        });
+    }
+    var tab = new Tabs('.tabs');
+</script>
+
+</html>
